@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Login from "./login";
+import ItemManager from "./ItemManager";
 
-function App() {
+export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  function handleLogin(username, password) {
+    if (username === "admin" && password === "123456") {
+      setIsLoggedIn(true);
+    } else {
+      alert("Identifiants incorrects");
+    }
+  }
+
+  function handleLogout() {
+    setIsLoggedIn(false);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {!isLoggedIn ? (
+        <Login onLogin={handleLogin} />
+      ) : (
+        <div style={{ padding: 20 }}>
+          <div style={{ marginBottom: 20 }}>
+            <button onClick={handleLogout}>Se déconnecter</button>
+          </div>
+          <ItemManager />
+        </div>
+      )}
     </div>
   );
 }
-
-export default App;
